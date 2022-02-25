@@ -1,0 +1,17 @@
+[Unit]
+Description=proc daemon
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/run/proclog-daemon/proclog.pid
+ExecStart=/usr/bin/proclog-daemon \
+	--log_file /var/log/proclog-daemon/proclog-daemon.log \
+	--pid_file /run/proclog-daemon/proclog-daemon.pid \
+	--daemon
+ExecReload=/bin/kill -HUP $MAINPID
+TimeoutSec=10
+TimeoutAbortSec=20
+
+[Install]
+WantedBy=multi-user.target
